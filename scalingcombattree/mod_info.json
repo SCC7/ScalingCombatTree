@@ -1,0 +1,10 @@
+{
+  "id":"scalingcombattree",
+  "name":"Scaling Combat Tree",
+  "author":"SCC",
+  "version":"0",
+  "description":"Combat skills have scaling effects, depending on the order you pick them.",
+  "gameVersion":"0.95a-RC15",
+  "jars":["jar/scalingcombattree.jar"],
+  "modPlugin":"scalingcombattree.ScalingCombatTreePlugin"
+}

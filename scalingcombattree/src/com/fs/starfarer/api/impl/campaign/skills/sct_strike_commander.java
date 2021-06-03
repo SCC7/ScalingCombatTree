@@ -1,0 +1,137 @@
+package com.fs.starfarer.api.impl.campaign.skills;
+
+import com.fs.starfarer.api.characters.ShipSkillEffect;
+import com.fs.starfarer.api.combat.MutableShipStatsAPI;
+import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import scalingcombattree.AptitudeChange;
+
+public class sct_strike_commander {
+
+//	public static final float MISSILE_SPEED_BONUS = 25f;
+//	public static final float MISSILE_RANGE_MULT = 0.8f;
+
+    public static final String skillId = "sct_strike_commander";
+
+    public static final float TARGET_LEADING_BONUS = 100f;
+    public static final float MISSILE_HITPOINTS_BONUS = 50f;
+    public static final float STRIKE_DAMAGE_BONUS = 20f;
+    static float bonusMultiplier = 1f;
+
+
+    public static class Level4 implements ShipSkillEffect {
+
+        public void apply(MutableShipStatsAPI stats, HullSize hullSize, String id, float level) {
+            bonusMultiplier = AptitudeChange.getSkillBonusMultiplier(skillId);
+            stats.getAutofireAimAccuracy().modifyFlat(id, TARGET_LEADING_BONUS * 0.01f * bonusMultiplier);
+        }
+
+        public void unapply(MutableShipStatsAPI stats, HullSize hullSize, String id) {
+            stats.getAutofireAimAccuracy().unmodify(id);
+            bonusMultiplier = 1f;
+            AptitudeChange.unassignSkill(skillId);
+        }
+
+        public String getEffectDescription(float level) {
+            return "+" + (int)(TARGET_LEADING_BONUS * bonusMultiplier) + "% target leading accuracy";
+        }
+
+        public String getEffectPerLevelDescription() {
+            return null;
+        }
+
+        public ScopeDescription getScopeDescription() {
+            return ScopeDescription.SHIP_FIGHTERS;
+        }
+    }
+
+//	public static class Level1 implements ShipSkillEffect {
+//
+//		public void apply(MutableShipStatsAPI stats, HullSize hullSize, String id, float level) {
+//			stats.getMissileMaxSpeedBonus().modifyPercent(id, MISSILE_SPEED_BONUS);
+//			stats.getMissileWeaponRangeBonus().modifyMult(id, MISSILE_RANGE_MULT);
+//
+//			stats.getMissileAccelerationBonus().modifyPercent(id, MISSILE_SPEED_BONUS);
+//			stats.getMissileMaxTurnRateBonus().modifyPercent(id, MISSILE_SPEED_BONUS * 2f);
+//			stats.getMissileTurnAccelerationBonus().modifyPercent(id, MISSILE_SPEED_BONUS);
+//
+//		}
+//
+//		public void unapply(MutableShipStatsAPI stats, HullSize hullSize, String id) {
+//			stats.getMissileMaxSpeedBonus().unmodify(id);
+//			stats.getMissileWeaponRangeBonus().unmodify(id);
+//
+//			stats.getMissileAccelerationBonus().unmodify(id);
+//			stats.getMissileMaxTurnRateBonus().unmodify(id);
+//			stats.getMissileTurnAccelerationBonus().unmodify(id);
+//		}
+//
+//		public String getEffectDescription(float level) {
+//			return "+" + (int)(MISSILE_SPEED_BONUS) + "% missile speed and maneuverability";
+//		}
+//
+//		public String getEffectPerLevelDescription() {
+//			return null;
+//		}
+//
+//		public ScopeDescription getScopeDescription() {
+//			return ScopeDescription.SHIP_FIGHTERS;
+//		}
+//	}
+
+    public static class Level2 implements ShipSkillEffect {
+
+        public void apply(MutableShipStatsAPI stats, HullSize hullSize, String id, float level) {
+            bonusMultiplier = AptitudeChange.getSkillBonusMultiplier(skillId);
+            stats.getMissileHealthBonus().modifyPercent(id, MISSILE_HITPOINTS_BONUS * bonusMultiplier);
+        }
+
+        public void unapply(MutableShipStatsAPI stats, HullSize hullSize, String id) {
+            stats.getMissileHealthBonus().unmodify(id);
+            bonusMultiplier = 1f;
+            AptitudeChange.unassignSkill(skillId);
+        }
+
+        public String getEffectDescription(float level) {
+            return "+" + (int)(MISSILE_HITPOINTS_BONUS * bonusMultiplier) + "% missile, rocket, bomb, and torpedo hitpoints";
+        }
+
+        public String getEffectPerLevelDescription() {
+            return null;
+        }
+
+        public ScopeDescription getScopeDescription() {
+            return ScopeDescription.SHIP_FIGHTERS;
+        }
+    }
+
+    public static class Level3 implements ShipSkillEffect {
+
+        public void apply(MutableShipStatsAPI stats, HullSize hullSize, String id, float level) {
+            bonusMultiplier = AptitudeChange.getSkillBonusMultiplier(skillId);
+            stats.getDamageToDestroyers().modifyPercent(id, STRIKE_DAMAGE_BONUS * bonusMultiplier);
+            stats.getDamageToCruisers().modifyPercent(id, STRIKE_DAMAGE_BONUS * bonusMultiplier);
+            stats.getDamageToCapital().modifyPercent(id, STRIKE_DAMAGE_BONUS * bonusMultiplier);
+        }
+
+        public void unapply(MutableShipStatsAPI stats, HullSize hullSize, String id) {
+            stats.getDamageToDestroyers().unmodify(id);
+            stats.getDamageToCruisers().unmodify(id);
+            stats.getDamageToCapital().unmodify(id);
+            bonusMultiplier = 1f;
+            AptitudeChange.unassignSkill(skillId);
+        }
+
+        public String getEffectDescription(float level) {
+            return "+" + (int)(STRIKE_DAMAGE_BONUS * bonusMultiplier) + "% damage to ships of destroyer size and larger";
+        }
+
+        public String getEffectPerLevelDescription() {
+            return null;
+        }
+
+        public ScopeDescription getScopeDescription() {
+            return ScopeDescription.SHIP_FIGHTERS;
+        }
+    }
+
+}
